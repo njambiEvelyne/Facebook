@@ -21,4 +21,18 @@ class Posts(models.Model):
         return f"Post by: {self.posted_by.username}"
 
 
-# Advanced model relatioships
+class Comment(models.Model):
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE, related_name="comment")
+
+
+class ProfilePicture(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.SET_NULL, null=True, related_name="profile_picture"
+    )
+    image_url = models.URLField()
+
+
+class Group(models.Model):
+    group_id = models.AutoField(primary_key=True)
+    member = models.ManyToManyField(User, related_name="groups")
+    name = models.CharField(max_length=100)
